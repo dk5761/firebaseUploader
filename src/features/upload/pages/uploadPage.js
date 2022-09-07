@@ -8,11 +8,13 @@ const UploadPage = () =>{
     const [movieSnapshots, setMovieSnapshots] = useState([])
     const [imdbScore, setImdbScore] = useState("")
     const [description, setDescription] = useState("")
+    const [runTime, setRunTime] = useState("")
+
 
 
     const handleMovieSnapshots = (event) =>{
         const files = event.target.files;      
-        setMovieSnapshots([files, ...movieSnapshots])
+        setMovieSnapshots(files)
     }
 
     const handlePosterFile = async (event) => {
@@ -30,6 +32,8 @@ const UploadPage = () =>{
         <input type="text" placeholder="title" onChange={(event) => setTitle(event.target.value)} />
         <textarea placeholder="description" rows={4} onChange={(event) => setDescription(event.target.value)} style={{resize: "none"}}/>
         <input type="text" placeholder="imdb" onChange={(event) => setImdbScore(event.target.value)} />
+        <input type="text" placeholder="runtime" onChange={(event) => setRunTime(event.target.value)} />
+
         <label> Poster image</label>
         <input type="file" accept="image/*" name="poster image" onChange={handlePosterFile}/>
         <br></br>

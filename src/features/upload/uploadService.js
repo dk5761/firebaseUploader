@@ -19,31 +19,33 @@ const handleImageUpload = async (file, filePath, fileName) =>{
     return x;
 }
 
-const handleInsertData = async (title, categories, imdbScore, description, movieSnapshots, posterFile)=>{
+const handleInsertData = async (title, categories, description, imdbScore, movieSnapshots, posterFile)=>{
 
     var x = await addDoc(collection(fireStore, "movies"), {
         title,
         categories: categories.split(","),
-        imdbScore,
+        imdb_score:imdbScore,
         description,
-        movieSnapshots: [],
-        posterFile: ""
+        movie_screenshots: [],
+        poster_url: ""
     });
 
 
     var posterUrl = await handleImageUpload(posterFile, x.id, "poster.jpg");
     var movieSnaps = []
     
-    console.log(movieSnapshots);
+    console.log("snapshots file list:", movieSnapshots);
 
     for (var i = 0; i < movieSnapshots.length; i++) {
-        console.log(movieSnapshots[i])
+        console.log( "snapshot name",movieSnapshots[i])
         movieSnaps.push(await handleImageUpload(movieSnapshots[i], x.id, i))
     }
+    console.log("Snaps ",movieSnaps);
+
 
     await updateDoc(doc(fireStore, 'movies', x.id), {
-        movieSnapshots: movieSnaps,
-        posterFile: posterUrl
+        movie_screenshots: movieSnaps,
+        poster_url: posterUrl
     })
 
 }
